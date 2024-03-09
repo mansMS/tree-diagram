@@ -1,10 +1,9 @@
 import tree from './tree.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
-const SVG_SIZE = 1000;
+const SVG_SIZE = 400;
 const CENTER = SVG_SIZE / 2;
-const LEVELS_WIDTHS = [100, 100, 40, 40, 40, 40];
-const FONT = 12;
+const LEVELS_WIDTHS = [20, 30, null, 30, 50, 60];
 
 const createSvg = () => {
   const svg = document.createElementNS(SVG_NS, 'svg');
@@ -51,7 +50,7 @@ const addNameToSector = (name, r, aRadian, daRadian, fontSize) => {
 };
 
 
-const addSector = (r, dr, a, da, name = '', fontSize = FONT) => {
+const addSector = (r, dr, a, da, name = '', fontSize = 10) => {
   const path = document.createElementNS(SVG_NS, 'path');
 
   const aRadian = toRadians(a);
@@ -120,57 +119,30 @@ const addLevel = (id, radius, parentDA, parentA, width, parts, text) => {
 
 // addLevel(110, 72, 288, 60, [30, 20]);
 
-// const get
-
 
 const flatTree = {};
 
-const flattenTree = (tree, parentId) => {
+const traverseTree = (tree, parentId) => {
   flatTree[tree.id] = { ...tree, parrent: parentId, generation: (flatTree[parentId]?.generation || 0) + 1 };
+  // sectorParams[tree.id].radius = tree.radius || (sectorParams[sectorParams[tree.id].parrent]?.radius || 0) + levelsWidths[tree.id.length - 1];
+  // sectorParams[tree.id].name = tree.name;
+  // // sectorParams[tree.id].radius =
 
   if (tree.childs) {
-    flatTree[tree.id].childIds = tree.childs.map(child => child.id);
-    delete flatTree[tree.id].childs;
+    flatTree[tree.id].childs = tree.childs.map(child => child.id);
 
-    const childsMaxBulk = tree.childs.map(child => flattenTree(child, tree.id));
+    // debugger;
+    const childsMaxBulk = tree.childs.map(child => traverseTree(child, tree.id));
     const childsMaxBulkSum = childsMaxBulk.reduce((acc, maxBulk) => acc + maxBulk, 0);
     const maxBulk = Math.max(tree.childs.length, childsMaxBulkSum); // Максимальное количество потомков в одном поколении
     return flatTree[tree.id].maxBulk = maxBulk;
+    // return flatTree[tree.id].maxBulk = Math.max(tree.childs.length, tree.childs.map(traverseTree, tree.id).reduce((acc, maxBulk) => acc + maxBulk, 0));
   } else {
     return flatTree[tree.id].maxBulk = 1;
   };
 };
 
-flattenTree(tree);
-
-const calculateShares = () => {
-  Object.values(flatTree).forEach(person => {
-    if (person.generation === 1) {
-      person.share = 360;
-      person.sharePosition = 0;
-      person.radius = 0;
-      person.width = LEVELS_WIDTHS[person.generation - 1];
-    };
-
-    if (person.childIds) {
-      const childsBulkSum = person.childIds.reduce((acc, id) => acc + flatTree[id].maxBulk, 0);
-      let nextChildPosition = person.sharePosition;
-      person.childIds.forEach(id => {
-        flatTree[id].width = LEVELS_WIDTHS[flatTree[id].generation - 1];
-        flatTree[id].radius = person.radius + person.width;
-        flatTree[id].share = person.share / childsBulkSum * flatTree[id].maxBulk;
-        flatTree[id].sharePosition = nextChildPosition;
-        nextChildPosition += flatTree[id].share;
-      });
-    };
-  });
-};
-
-calculateShares();
-
-
-Object.values(flatTree).forEach(branch => addSector(branch.radius, branch.width, branch.sharePosition, branch.share, branch.name));
-
+traverseTree(tree);
 console.log('flatTree', flatTree);
 
 // Object.keys(sectorParams).forEach(key => {
