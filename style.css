@@ -1,8 +1,10 @@
-path {
+path,
+circle {
     pointer-events: all;
 }
 
-path:hover {
+path:hover,
+circle:hover {
     fill: rgb(228, 228, 228);
 }
 

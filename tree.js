@@ -1,60 +1,67 @@
 const tree = {
   id: '1',
   name: 'ЖанахIажи',
+  gender: 'male',
   info: 'Представитель одного из трех тухумов, которые основали село. Курайшит.',
   childs: [{
     id: '11',
     name: 'ГIали',
+    gender: 'male',
     childs: [
       {
         id: '111',
-        name: 'Даци',
+        name: 'Дwwefewfcqwаци',
+        gender: 'male',
         info: 'Погиб вместе с имамом ГъазимухIаммадом при гимринской башне.',
       },
       {
         id: '112',
         name: 'Султанбег',
+        gender: 'male',
         info: 'Погиб при отходе имама Шамиля с Ахульго, закрыв имама от пули своей грудью.',
         childs: [
           {
             id: '1121',
             name: 'МуртазгIалихIажи',
-            wives: [
-              {
-                id: '113B',
-                name: 'Сайгибат',
-              }
-            ],
+            gender: 'male',
+            wives: ['113B'],
             childs: [
               {
                 id: '11211',
                 name: 'Шайихислам',
+                gender: 'male',
                 childs: [
                   {
                     id: '112111',
                     name: 'Салтанат',
+                    gender: 'female',
                   },
                   {
                     id: '112112',
                     name: 'Жагьбат',
+                    gender: 'female',
                   },
                   {
                     id: '112113',
                     name: 'Умакусум',
+                    gender: 'female',
                   },
                   {
                     id: '112114',
                     name: 'Загьрат',
+                    gender: 'female',
                   },
                 ],
               },
               {
                 id: '11212',
                 name: 'ИладихIажи',
+                gender: 'male',
                 childs: [
                   {
                     id: '112121',
                     name: 'Агъилав',
+                    gender: 'male',
                   },
                   {
                     id: '112122',
@@ -63,6 +70,7 @@ const tree = {
                   {
                     id: '112123',
                     name: 'Усамат',
+                    gender: 'male',
                   },
                 ],
               },
@@ -566,6 +574,7 @@ const tree = {
           {
             id: '113B',
             name: 'Сайгибат',
+            gender: 'female',
             husband: '1121',
           },
         ],

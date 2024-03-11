@@ -50,7 +50,7 @@ const calculateShares = () => {
 calculateShares();
 
 const printDiagramm = () => {
-  Object.values(flatTree).forEach(branch => {
+  Object.values(flatTree).reverse().forEach(branch => {
     if (branch.share === 2 * Math.PI) {
       printCircle(CENTER, CENTER, branch.radius + branch.width);
 

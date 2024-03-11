@@ -1,4 +1,4 @@
-import { SVG_NS, SVG_SIZE, CENTER, FONT_SIZE, BORDER_COLOR, TEXT_COLOR } from './constants.js';
+import { SVG_NS, SVG_SIZE, CENTER, FONT_SIZE, BORDER_COLOR, TEXT_COLOR, BACKGROUND_COLOR } from './constants.js';
 import { getTextPositionInSector, toDegrees } from './helpers.js';
 
 let svg;
@@ -11,13 +11,13 @@ const createSvg = () => {
   return document.body.appendChild(svg);
 };
 
-const printCircle = (x, y, radius, color = BORDER_COLOR) => {
+const printCircle = (x, y, radius, borderColor = BORDER_COLOR, backgroundColor = BACKGROUND_COLOR) => {
   const circle = document.createElementNS(SVG_NS, 'circle');
   circle.setAttribute('cx', x);
   circle.setAttribute('cy', y);
   circle.setAttribute('r', radius);
-  circle.setAttribute('fill', 'transparent');
-  circle.setAttribute('stroke', color);
+  circle.setAttribute('fill', backgroundColor);
+  circle.setAttribute('stroke', borderColor);
   svg.appendChild(circle);
 };
 
@@ -30,25 +30,19 @@ const printCircle = (x, y, radius, color = BORDER_COLOR) => {
 //   svg.appendChild(circle);
 // };
 
-const addTextToCoords = (text, x, y, fontSize = FONT_SIZE) => {
+const addTextToCoords = (text, x, y, fontSize = FONT_SIZE, rotate = 0) => {
   const textElement = document.createElementNS(SVG_NS, 'text');
   textElement.setAttribute('fill', TEXT_COLOR);
   textElement.setAttribute('font-size', fontSize + 'px');
 
-  textElement.setAttribute('transform', `translate(${x}, ${y})`);
+  textElement.setAttribute('transform', `translate(${x}, ${y}) rotate(${toDegrees(rotate)})`);
   textElement.textContent = text;
   svg.appendChild(textElement);
 };
 
 const addNameToSector = (name, r, a, dA, fontSize = FONT_SIZE) => {
-  const text = document.createElementNS(SVG_NS, 'text');
-  text.setAttribute('fill', TEXT_COLOR);
-  text.setAttribute('font-size', fontSize + 'px');
-
-  const { x: textX, y: textY, a: textA } = getTextPositionInSector(r, a, dA, fontSize);
-  text.setAttribute('transform', `translate(${textX}, ${textY}) rotate(${toDegrees(textA)})`);
-  text.textContent = name;
-  svg.appendChild(text);
+  const { x, y, a: rotate } = getTextPositionInSector(r, a, dA, fontSize);
+  addTextToCoords(name, x, y, fontSize, rotate);
 
   // <g transform="translate(306.5435810997357, 231.13623815498656) rotate(16.29044548452888)">
   //   <text fill="red" font-size="10px" y="-5">Nam2222s</text>
@@ -78,7 +72,7 @@ const addSector = (r, dr, a, dA, name = '', fontSize = FONT_SIZE) => {
     `M ${x1} ${y1} A ${r} ${r}, 0, ${arcAdj}, 1, ${x2} ${y2} L ${x3} ${y3} A ${r + dr} ${r + dr}, 0, ${arcAdj}, 0, ${x4} ${y4} Z`
   );
   path.setAttribute('stroke', BORDER_COLOR);
-  path.setAttribute('fill', 'white');
+  path.setAttribute('fill', BACKGROUND_COLOR);
 
   svg.appendChild(path);
 
