@@ -19,7 +19,7 @@ const tree = {
           {
             name: 'МуртазгIалихIажи',
             gender: 'male',
-            wives: ['113b'],
+            marriage: 'm1',
             childs: [
               {
                 name: 'Шайихислам',
@@ -555,7 +555,7 @@ const tree = {
           {
             name: 'Сайгибат',
             gender: 'female',
-            husband: '1121',
+            marriage: 'm1',
           },
         ],
       }

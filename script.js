@@ -9,7 +9,7 @@ document.body.appendChild(svg);
 const flatTree = {};
 
 const flattenTree = (tree, id) => {
-  const branch = { ...tree, id, generation: id.length };
+  const branch = { ...tree, id, generation: id.length - 1 };
 
   if (tree.childs) {
     const childIds = tree.childs.map((_, index) => id + (index + 1).toString(16));
@@ -28,36 +28,42 @@ const flattenTree = (tree, id) => {
   };
 };
 
-flattenTree(tree, '1');
+flattenTree(tree, 'i1');
 
-const calculateShares = () => {
-  Object.values(flatTree).forEach(person => {
+const treeKeys = Object.keys(flatTree).sort();
+
+const calculateSizes = () => {
+  treeKeys.forEach(id => {
+    const person = flatTree[id];
+
     if (person.generation === 1) {
-      person.share = 2 * Math.PI;
-      person.sharePosition = 0.737 * Math.PI;
+      person.sectorSize = 2 * Math.PI;
+      person.sectorStart = 0.737 * Math.PI;
       person.radius = 0;
       person.width = LEVELS_WIDTHS[person.generation - 1] || DEFAULT_LEVEL_WIDTH;
     };
 
     if (person.childIds) {
       const childsBulkSum = person.childIds.reduce((acc, id) => acc + flatTree[id].maxBulk, 0);
-      let nextChildPosition = person.sharePosition;
+      let nextChildPosition = person.sectorStart;
       person.childIds.forEach(id => {
         flatTree[id].width = LEVELS_WIDTHS[flatTree[id].generation - 1] || DEFAULT_LEVEL_WIDTH;
         flatTree[id].radius = person.radius + person.width;
-        flatTree[id].share = person.share / childsBulkSum * flatTree[id].maxBulk;
-        flatTree[id].sharePosition = nextChildPosition;
-        nextChildPosition += flatTree[id].share;
+        flatTree[id].sectorSize = person.sectorSize / childsBulkSum * flatTree[id].maxBulk;
+        flatTree[id].sectorStart = nextChildPosition;
+        nextChildPosition += flatTree[id].sectorSize;
       });
     };
   });
 };
 
-calculateShares();
+calculateSizes();
 
 const createStructure = () => {
-  Object.values(flatTree).forEach(branch => {
-    const g = getGroup(branch.id, branch.gender);
+  treeKeys.forEach(id => {
+    const branch = flatTree[id];
+    const className = [branch.gender, branch.marriage].filter(Boolean).join(' ') || undefined;
+    const g = getGroup(branch.id, className);
     const parent = svg.getElementById(branch.parentId) || svg;
     parent.appendChild(g);
   });
@@ -72,9 +78,10 @@ const printBranchs = branch => {
     textElement.setAttribute('transform', `translate(${x}, ${y}) rotate(${toDegrees(rotate)})`);
     parent.appendChild(textElement);
   };
+
   const textElement = getText(branch.name);
 
-  if (branch.share === 2 * Math.PI) {
+  if (branch.sectorSize === 2 * Math.PI) {
     const circle = getCircle(CENTER, CENTER, branch.radius + branch.width);
     group.appendChild(circle);
 
@@ -82,10 +89,10 @@ const printBranchs = branch => {
     const textY = CENTER + FONT_SIZE * 0.25;
     addTextToCoords(textElement, group, textX, textY);
   } else {
-    const sector = getSector(branch.radius, branch.width, branch.sharePosition, branch.share);
+    const sector = getSector(branch.radius, branch.width, branch.sectorStart, branch.sectorSize);
     group.appendChild(sector);
 
-    const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(branch.radius + 3, branch.sharePosition, branch.share, FONT_SIZE);
+    const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(branch.radius + 3, branch.sectorStart, branch.sectorSize, FONT_SIZE);
     addTextToCoords(textElement, group, textX, textY, textRotate);
 
   };
