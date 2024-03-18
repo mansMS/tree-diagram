@@ -31,7 +31,7 @@ const flattenTree = (tree, id) => {
 
     delete branch.childs;
 
-    return flatTree[id] = { ...branch, maxBulk: maxBulk, childIds: childIds };
+    return flatTree[id] = { ...branch, maxBulk: maxBulk, childIds: childIds.sort((a, b) => flatTree[a].maxBulk - flatTree[b].maxBulk) };
   } else {
     return flatTree[id] = { ...branch, maxBulk: 1 };
   };
@@ -47,7 +47,7 @@ const calculateSizes = () => {
 
     if (branch.generation === 1) {
       branch.sectorSize = 2 * Math.PI;
-      branch.sectorStart = 0.7374 * Math.PI;
+      branch.sectorStart = 73 / 99 * Math.PI;
       branch.radius = 0;
     };
 
