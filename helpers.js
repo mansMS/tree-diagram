@@ -14,10 +14,10 @@ const getTextPositionInSector = (sectorRadius, sectorA, sectorDa, textHeight) =>
     const vAC1x = vAB1y;
     const vAC1y = -vAB1x;
 
-    const qw = 3.8;
+    const textOffsetRatio = 3.8;
 
-    const vACx = vAC1x * (textHeight / qw);
-    const vACy = vAC1y * (textHeight / qw);
+    const vACx = vAC1x * (textHeight / textOffsetRatio);
+    const vACy = vAC1y * (textHeight / textOffsetRatio);
 
     const x = x0 + vACx;
     const y = y0 + vACy;
@@ -29,4 +29,11 @@ const toDegrees = a => a * (180 / Math.PI);
 
 const toRadians = a => a * (Math.PI / 180);
 
-export { getTextPositionInSector, toDegrees, toRadians };
+const calculateTextWidth = (text, fontSize) => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = fontSize + 'px ISOCPEUR';
+    return context.measureText(text).width;
+};
+
+export { getTextPositionInSector, toDegrees, toRadians, calculateTextWidth };

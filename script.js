@@ -1,15 +1,24 @@
-import { CENTER, LEVELS_WIDTHS, DEFAULT_LEVEL_WIDTH, FONT_SIZE } from './constants.js';
+import { CENTER, DEFAULT_FONT_SIZE } from './constants.js';
 import { getSvg, getCircle, getGroup, getText, getSector } from './svgFunc.js';
-import { getTextPositionInSector, toDegrees } from './helpers.js';
+import { getTextPositionInSector, toDegrees, calculateTextWidth } from './helpers.js';
 import tree from './tree.js';
 
 const svg = getSvg();
 document.body.appendChild(svg);
 
 const flatTree = {};
+const levelsWidths = [];
 
 const flattenTree = (tree, id) => {
-  const branch = { ...tree, id, generation: id.length - 1 };
+  const generation = id.length - 1;
+  const fontSize = DEFAULT_FONT_SIZE * (1 - 0.05 * (generation - 1));
+  const nameWidth = calculateTextWidth(tree.name, fontSize);
+  const width = nameWidth + fontSize * 0.4;
+  const branch = { ...tree, id, generation, fontSize, nameWidth, width };
+
+  if (!levelsWidths[branch.generation] || levelsWidths[branch.generation] < width) {
+    levelsWidths[branch.generation] = branch.generation === 1 ? width / 2 : width;
+  };
 
   if (tree.childs) {
     const childIds = tree.childs.map((_, index) => id + (index + 1).toString(16));
@@ -30,26 +39,25 @@ const flattenTree = (tree, id) => {
 
 flattenTree(tree, 'i1');
 
-const treeKeys = Object.keys(flatTree).sort();
+const treeKeys = Object.keys(flatTree).sort((a, b) => a.length - b.length);
 
 const calculateSizes = () => {
   treeKeys.forEach(id => {
-    const person = flatTree[id];
+    const branch = flatTree[id];
 
-    if (person.generation === 1) {
-      person.sectorSize = 2 * Math.PI;
-      person.sectorStart = 0.737 * Math.PI;
-      person.radius = 0;
-      person.width = LEVELS_WIDTHS[person.generation - 1] || DEFAULT_LEVEL_WIDTH;
+    if (branch.generation === 1) {
+      branch.sectorSize = 2 * Math.PI;
+      branch.sectorStart = 0.7374 * Math.PI;
+      branch.radius = 0;
     };
 
-    if (person.childIds) {
-      const childsBulkSum = person.childIds.reduce((acc, id) => acc + flatTree[id].maxBulk, 0);
-      let nextChildPosition = person.sectorStart;
-      person.childIds.forEach(id => {
-        flatTree[id].width = LEVELS_WIDTHS[flatTree[id].generation - 1] || DEFAULT_LEVEL_WIDTH;
-        flatTree[id].radius = person.radius + person.width;
-        flatTree[id].sectorSize = person.sectorSize / childsBulkSum * flatTree[id].maxBulk;
+    if (branch.childIds) {
+      const childsBulkSum = branch.childIds.reduce((acc, id) => acc + flatTree[id].maxBulk, 0);
+      let nextChildPosition = branch.sectorStart;
+
+      branch.childIds.forEach(id => {
+        flatTree[id].radius = branch.radius + levelsWidths[branch.generation];
+        flatTree[id].sectorSize = branch.sectorSize / childsBulkSum * flatTree[id].maxBulk;
         flatTree[id].sectorStart = nextChildPosition;
         nextChildPosition += flatTree[id].sectorSize;
       });
@@ -79,22 +87,21 @@ const printBranchs = branch => {
     parent.appendChild(textElement);
   };
 
-  const textElement = getText(branch.name);
+  const textElement = getText(branch.name, branch.fontSize);
 
   if (branch.sectorSize === 2 * Math.PI) {
-    const circle = getCircle(CENTER, CENTER, branch.radius + branch.width);
+    const circle = getCircle(CENTER, CENTER, branch.radius + levelsWidths[branch.generation]);
     group.appendChild(circle);
 
-    const textX = branch.generation === 1 ? CENTER - branch.width * 0.72 : CENTER + branch.radius + 5;
-    const textY = CENTER + FONT_SIZE * 0.25;
+    const textX = (branch.generation === 1 ? CENTER - levelsWidths[branch.generation] : CENTER + branch.radius) + branch.fontSize * 0.2;
+    const textY = CENTER + branch.fontSize * 0.25;
     addTextToCoords(textElement, group, textX, textY);
   } else {
-    const sector = getSector(branch.radius, branch.width, branch.sectorStart, branch.sectorSize);
+    const sector = getSector(branch.radius, levelsWidths[branch.generation], branch.sectorStart, branch.sectorSize);
     group.appendChild(sector);
 
-    const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(branch.radius + 3, branch.sectorStart, branch.sectorSize, FONT_SIZE);
+    const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(branch.radius + branch.fontSize * 0.2, branch.sectorStart, branch.sectorSize, branch.fontSize);
     addTextToCoords(textElement, group, textX, textY, textRotate);
-
   };
 };
 
