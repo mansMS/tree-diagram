@@ -30,8 +30,8 @@ const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
     const diagrammRadius = levelsWidths.reduce((acc, witdh) => acc + witdh, 0);
     diagramm.style.width = diagrammRadius * 2 + 'px';
     diagramm.style.height = diagrammRadius * 2 + 'px';
-    svg.style.top = diagrammRadius - CENTER + 'px';
-    svg.style.left = diagrammRadius - CENTER + 'px';
+    svg.style.top = diagrammRadius - CENTER + 5 + 'px';
+    svg.style.left = `calc(50% - ${CENTER}px)`;
 
 
     const calculateSertorsSizes = () => {
