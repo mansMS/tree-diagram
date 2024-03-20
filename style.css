@@ -6,7 +6,47 @@
 }
 
 body {
+    display: flex;
     font-family: 'ISOCPEUR';
+}
+
+.head-list {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.head-list button {
+    padding: 10px;
+    border: 1px solid rgb(177, 177, 177);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.head-list button:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.head-list button:only-child {
+    visibility: hidden;
+}
+
+.head-list .male {
+    background-color: rgb(200, 218, 255);
+}
+
+.head-list .female {
+    background-color: rgb(255, 200, 200);
+}
+
+.diagramm {
+    position: relative;
+    overflow: hidden;
+}
+
+svg {
+    position: absolute;
 }
 
 path,

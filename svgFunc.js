@@ -1,4 +1,4 @@
-import { SVG_NS, SVG_SIZE, CENTER, DEFAULT_FONT_SIZE } from './constants.js';
+import { SVG_NS, SVG_SIZE, CENTER } from './constants.js';
 
 const getSvg = () => {
   const svg = document.createElementNS(SVG_NS, 'svg');
@@ -30,7 +30,7 @@ const getGroup = (id, className) => {
   return g;
 };
 
-const getText = (text, fontSize = DEFAULT_FONT_SIZE, className) => {
+const getText = (text, fontSize, className) => {
   const textElement = document.createElementNS(SVG_NS, 'text');
   textElement.setAttribute('font-size', fontSize);
   className && textElement.setAttribute('class', className);
