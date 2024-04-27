@@ -1,12 +1,10 @@
-import { CENTER } from './constants.js';
-
-const getTextPositionInSector = (sectorRadius, sectorA, sectorDa, textHeight) => {
+const getTextPositionInSector = (sectorRadius, sectorA, sectorDa, textHeight, diagrammCenter) => {
     const a = sectorA + sectorDa / 2;
-    const x0 = CENTER + sectorRadius * Math.cos(a);
-    const y0 = CENTER + sectorRadius * Math.sin(a);
+    const x0 = diagrammCenter + sectorRadius * Math.cos(a);
+    const y0 = diagrammCenter + sectorRadius * Math.sin(a);
 
-    const vABx = CENTER - x0;
-    const vABy = CENTER - y0;
+    const vABx = diagrammCenter - x0;
+    const vABy = diagrammCenter - y0;
 
     const vAB1x = vABx / sectorRadius;
     const vAB1y = vABy / sectorRadius;

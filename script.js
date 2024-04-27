@@ -1,5 +1,6 @@
 import { TREE_HEAD_ID } from './constants.js';
 import printDiagramm from './printDiagramm.js';
+import { closeInfo, openInfo } from './printInfo.js';
 import tree from './tree.js';
 
 const flatTree = {};
@@ -30,6 +31,7 @@ const treeKeys = Object.keys(flatTree).sort((a, b) => a.length - b.length);
 let printingTreeKeys;
 let svg;
 const headListBlock = document.body.getElementsByClassName('head-list')[0];
+const infoBlock = document.body.getElementsByClassName('info-block')[0];
 const headList = [];
 
 const addHeadButton = headItem => {
@@ -83,9 +85,14 @@ const startPrinting = diagrammHeadId => {
   svg = printDiagramm(diagrammHeadId, flatTree, printingTreeKeys);
 
   svg.addEventListener('click', (e) => {
-    const newDiagrammHeadId = e.target.parentElement.id;
-    if (newDiagrammHeadId in flatTree && newDiagrammHeadId !== diagrammHeadId) {
-      diagrammHeadId = newDiagrammHeadId;
+    const sectorId = e.target.parentElement.id;
+    const tag = e.target.tagName;
+
+    if (tag === 'text') {
+      if (sectorId !== infoBlock.dataset.personId) openInfo(flatTree[sectorId], infoBlock);
+    } else if (sectorId in flatTree && sectorId !== diagrammHeadId) {
+      if (sectorId !== infoBlock.dataset.personId) closeInfo(infoBlock);
+      diagrammHeadId = sectorId;
       startPrinting(diagrammHeadId);
     };
   });

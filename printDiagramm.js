@@ -1,11 +1,8 @@
-import { CENTER, DEFAULT_FONT_SIZE } from './constants.js';
-import { getSvg, getCircle, getGroup, getText, getSector } from './svgFunc.js';
+import { DEFAULT_FONT_SIZE } from './constants.js';
+import { getSvg, getGroup, getText, getDonut, getSector } from './svgFunc.js';
 import { getTextPositionInSector, toDegrees, calculateTextWidth } from './helpers.js';
 
 const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
-    let svg = getSvg();
-    const diagramm = document.body.getElementsByClassName('diagramm')[0];
-    diagramm.appendChild(svg);
 
     const levelsWidths = [];
     const calculateLevelsWidths = () => {
@@ -28,11 +25,10 @@ const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
     calculateLevelsWidths();
 
     const diagrammRadius = levelsWidths.reduce((acc, witdh) => acc + witdh, 0);
-    diagramm.style.width = diagrammRadius * 2 + 'px';
-    diagramm.style.height = diagrammRadius * 2 + 'px';
-    svg.style.top = diagrammRadius - CENTER + 5 + 'px';
-    svg.style.left = `calc(50% - ${CENTER}px)`;
 
+    let svg = getSvg(diagrammRadius * 2);
+    const diagramm = document.body.getElementsByClassName('diagramm')[0];
+    diagramm.appendChild(svg);
 
     const calculateSertorsSizes = () => {
         treeKeys.forEach(id => {
@@ -78,20 +74,22 @@ const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
             parent.appendChild(textElement);
         };
 
-        const textElement = getText(branch.name, branch.fontSize);
+        const textClass = branch.info ? 'has-info' : '';
+
+        const textElement = getText(branch.name, branch.fontSize, textClass);
 
         if (branch.sectorSize === 2 * Math.PI) {
-            const circle = getCircle(CENTER, CENTER, branch.radius + levelsWidths[branch.generation]);
-            group.appendChild(circle);
+            const donut = getDonut(branch.radius, levelsWidths[branch.generation], diagrammRadius);
+            group.appendChild(donut);
 
-            const textX = (branch.id === diagrammHeadId ? CENTER - levelsWidths[branch.generation] : CENTER + branch.radius) + branch.fontSize * 0.2;
-            const textY = CENTER + branch.fontSize * 0.25;
+            const textX = (branch.id === diagrammHeadId ? diagrammRadius - levelsWidths[branch.generation] : diagrammRadius + branch.radius) + branch.fontSize * 0.2;
+            const textY = diagrammRadius + branch.fontSize * 0.25;
             addTextToCoords(textElement, group, textX, textY);
         } else {
-            const sector = getSector(branch.radius, levelsWidths[branch.generation], branch.sectorStart, branch.sectorSize);
+            const sector = getSector(branch.radius, levelsWidths[branch.generation], branch.sectorStart, branch.sectorSize, diagrammRadius);
             group.appendChild(sector);
 
-            const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(branch.radius + branch.fontSize * 0.2, branch.sectorStart, branch.sectorSize, branch.fontSize);
+            const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(branch.radius + branch.fontSize * 0.2, branch.sectorStart, branch.sectorSize, branch.fontSize, diagrammRadius);
             addTextToCoords(textElement, group, textX, textY, textRotate);
         };
     };

@@ -7,17 +7,20 @@
 
 body {
     display: flex;
+    justify-content: space-between;
     font-family: 'ISOCPEUR';
 }
 
+.nav-side {
+    max-width: 300px;
+}
+
 .head-list {
-    width: 150px;
-    display: flex;
-    flex-direction: column;
-    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .head-list button {
+    display: block;
     padding: 10px;
     border: 1px solid rgb(177, 177, 177);
     border-radius: 5px;
@@ -29,7 +32,7 @@ body {
 }
 
 .head-list button:only-child {
-    visibility: hidden;
+    display: none;
 }
 
 .head-list .male {
@@ -40,15 +43,62 @@ body {
     background-color: rgb(255, 200, 200);
 }
 
-.diagramm {
+.info-block {
     position: relative;
-    overflow: hidden;
-    flex-grow: 1;
-    padding: 5px;
+    padding: 10px;
+    border-radius: 4px;
 }
 
-svg {
+.info-block:not(:empty) {
+    border: 1px solid rgb(177, 177, 177);
+}
+
+.info-block:empty {
+    padding: 0;
+}
+
+.info-block__close-button {
     position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.info-block__header {
+    margin: 0 0 10px;
+    font-weight: bold;
+}
+
+.info-block__text {
+    margin: 0;
+    white-space: pre-line;
+}
+
+.info-block__photos-block {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.info-block__photos-card {
+    margin-right: 5px;
+}
+
+.info-block__photos-card img {
+    width: 100px;
+}
+
+.info-block__photos-card div {
+    font-size: 12px;
+}
+
+.diagramm {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 5px;
 }
 
 path,
@@ -56,7 +106,15 @@ circle {
     pointer-events: all;
 }
 
-text {
+text.has-info {
+    cursor: pointer;
+}
+
+text.has-info:hover {
+    text-decoration: underline;
+}
+
+text:not(.has-info) {
     pointer-events: none;
 }
 

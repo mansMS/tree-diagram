@@ -1,10 +1,10 @@
-import { SVG_NS, SVG_SIZE, CENTER } from './constants.js';
+import { SVG_NS } from './constants.js';
 
-const getSvg = () => {
+const getSvg = (svgSize) => {
   const svg = document.createElementNS(SVG_NS, 'svg');
   svg.setAttribute('xmlns', SVG_NS);
-  svg.setAttribute('width', SVG_SIZE);
-  svg.setAttribute('height', SVG_SIZE);
+  svg.setAttribute('width', svgSize);
+  svg.setAttribute('height', svgSize);
   return svg;
 };
 
@@ -33,25 +33,44 @@ const getGroup = (id, className) => {
 const getText = (text, fontSize, className) => {
   const textElement = document.createElementNS(SVG_NS, 'text');
   textElement.setAttribute('font-size', fontSize);
-  className && textElement.setAttribute('class', className);
   textElement.textContent = text;
+  className && textElement.setAttribute('class', className);
   return textElement;
 };
 
-const getSector = (r, dr, a, dA, className) => {
+const getDonut = (r, dr, center) => {
   const path = document.createElementNS(SVG_NS, 'path');
 
-  const x1 = CENTER + r * Math.cos(a);
-  const y1 = CENTER + r * Math.sin(a);
+  const y1 = center - r;
 
-  const x2 = CENTER + r * Math.cos(a + dA);
-  const y2 = CENTER + r * Math.sin(a + dA);
+  const y2 = center + r;
 
-  const x3 = CENTER + (r + dr) * Math.cos(a + dA);
-  const y3 = CENTER + (r + dr) * Math.sin(a + dA);
+  const y3 = center - r - dr;
 
-  const x4 = CENTER + (r + dr) * Math.cos(a);
-  const y4 = CENTER + (r + dr) * Math.sin(a);
+  const y4 = center + r + dr;
+
+  path.setAttribute(
+    'd',
+    `M ${center} ${y1} A ${r} ${r} 0 1 1 ${center} ${y2} A ${r} ${r} 0 1 1 ${center} ${y1} Z M ${center} ${y3} A ${r + dr} ${r + dr} 0 1 0 ${center} ${y4} A ${r + dr} ${r + dr} 0 1 0 ${center} ${y3} Z`
+  );
+
+  return path;
+};
+
+const getSector = (r, dr, a, dA, center) => {
+  const path = document.createElementNS(SVG_NS, 'path');
+
+  const x1 = center + r * Math.cos(a);
+  const y1 = center + r * Math.sin(a);
+
+  const x2 = center + r * Math.cos(a + dA);
+  const y2 = center + r * Math.sin(a + dA);
+
+  const x3 = center + (r + dr) * Math.cos(a + dA);
+  const y3 = center + (r + dr) * Math.sin(a + dA);
+
+  const x4 = center + (r + dr) * Math.cos(a);
+  const y4 = center + (r + dr) * Math.sin(a);
 
   const arcAdj = dA > Math.PI ? 1 : 0;
 
@@ -59,9 +78,8 @@ const getSector = (r, dr, a, dA, className) => {
     'd',
     `M ${x1} ${y1} A ${r} ${r}, 0, ${arcAdj}, 1, ${x2} ${y2} L ${x3} ${y3} A ${r + dr} ${r + dr}, 0, ${arcAdj}, 0, ${x4} ${y4} Z`
   );
-  className && path.setAttribute('class', className);
 
   return path;
 };
 
-export { getSvg, getCircle, getDot, getGroup, getText, getSector };
+export { getSvg, getCircle, getDot, getGroup, getText, getDonut, getSector };
