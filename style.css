@@ -97,6 +97,7 @@ body {
 .diagramm {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-grow: 1;
     padding: 5px;
 }
@@ -106,8 +107,18 @@ circle {
     pointer-events: all;
 }
 
+text {
+    user-select: none;
+}
+
 text.has-info {
     cursor: pointer;
+}
+
+@media (hover: none) {
+    text.has-info {
+        text-decoration: underline;
+    }
 }
 
 text.has-info:hover {
