@@ -1,6 +1,6 @@
 import { DEFAULT_FONT_SIZE } from './constants.js';
 import { getSvg, getGroup, getText, getDonut, getSector } from './svgFunc.js';
-import { getTextPositionInSector, toDegrees, calculateTextWidth } from './helpers.js';
+import { getTextPositionInSector, toDegrees, calculateTextWidth, getSectorSizeWidth } from './helpers.js';
 
 const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
 
@@ -76,12 +76,11 @@ const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
 
         const textClass = branch.info ? 'has-info' : '';
 
-        const textElement = getText(branch.name, branch.fontSize, textClass);
-
         if (branch.sectorSize === 2 * Math.PI) {
             const donut = getDonut(branch.radius, levelsWidths[branch.generation], diagrammRadius);
             group.appendChild(donut);
 
+            const textElement = getText(branch.name, branch.fontSize, textClass);
             const textX = (branch.id === diagrammHeadId ? diagrammRadius - levelsWidths[branch.generation] : diagrammRadius + branch.radius) + branch.fontSize * 0.2;
             const textY = diagrammRadius + branch.fontSize * 0.25;
             addTextToCoords(textElement, group, textX, textY);
@@ -89,7 +88,15 @@ const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
             const sector = getSector(branch.radius, levelsWidths[branch.generation], branch.sectorStart, branch.sectorSize, diagrammRadius);
             group.appendChild(sector);
 
-            const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(branch.radius + branch.fontSize * 0.2, branch.sectorStart, branch.sectorSize, branch.fontSize, diagrammRadius);
+            const sectorSizeWidth = getSectorSizeWidth(branch.radius, branch.sectorSize);
+            if (branch.fontSize > sectorSizeWidth) branch.fontSize = branch.fontSize * 0.8;
+
+            const nameStartRadius = branch.fontSize > sectorSizeWidth
+                ? (branch.radius + levelsWidths[branch.generation] - branch.nameWidth * 0.8 - branch.fontSize * 0.2)
+                : (branch.radius + branch.fontSize * 0.2);
+
+            const textElement = getText(branch.name, branch.fontSize, textClass);
+            const { x: textX, y: textY, a: textRotate } = getTextPositionInSector(nameStartRadius, branch.sectorStart, branch.sectorSize, branch.fontSize, diagrammRadius);
             addTextToCoords(textElement, group, textX, textY, textRotate);
         };
     };

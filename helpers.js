@@ -1,13 +1,13 @@
-const getTextPositionInSector = (sectorRadius, sectorA, sectorDa, textHeight, diagrammCenter) => {
+const getTextPositionInSector = (nameStartRadius, sectorA, sectorDa, textHeight, diagrammCenter) => {
     const a = sectorA + sectorDa / 2;
-    const x0 = diagrammCenter + sectorRadius * Math.cos(a);
-    const y0 = diagrammCenter + sectorRadius * Math.sin(a);
+    const x0 = diagrammCenter + nameStartRadius * Math.cos(a);
+    const y0 = diagrammCenter + nameStartRadius * Math.sin(a);
 
     const vABx = diagrammCenter - x0;
     const vABy = diagrammCenter - y0;
 
-    const vAB1x = vABx / sectorRadius;
-    const vAB1y = vABy / sectorRadius;
+    const vAB1x = vABx / nameStartRadius;
+    const vAB1y = vABy / nameStartRadius;
 
     const vAC1x = vAB1y;
     const vAC1y = -vAB1x;
@@ -23,6 +23,10 @@ const getTextPositionInSector = (sectorRadius, sectorA, sectorDa, textHeight, di
     return { a, x, y };
 };
 
+const getSectorSizeWidth = (r, da) => {
+    return 2 * r * Math.sin(da / 2);
+};
+
 const toDegrees = a => a * (180 / Math.PI);
 
 const toRadians = a => a * (Math.PI / 180);
@@ -34,4 +38,4 @@ const calculateTextWidth = (text, fontSize) => {
     return context.measureText(text).width;
 };
 
-export { getTextPositionInSector, toDegrees, toRadians, calculateTextWidth };
+export { getTextPositionInSector, toDegrees, toRadians, calculateTextWidth, getSectorSizeWidth };
