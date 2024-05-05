@@ -23,9 +23,15 @@ const getTextPositionInSector = (nameStartRadius, sectorA, sectorDa, textHeight,
     return { a, x, y };
 };
 
-const getSectorSizeWidth = (r, da) => {
-    return 2 * r * Math.sin(da / 2);
+const getSectorSizeMediumWidth = (r, da, sw) => {
+    return 2 * (r + sw / 2) * Math.sin(da / 2);
 };
+
+// const getOptimizeNameRadiusAndFontSize = (fontSize, sectorRadius, sectorSize, sectorWidth, nameWidth) => {
+//     const minRadius = sectorRadius + fontSize * 0.2;
+//     const maxRadius = sectorRadius + sectorWidth - nameWidth - fontSize * 0.1;
+//     const sufficientRadius = fontSize / (2 * Math.sin(sectorSize / 2));
+// };
 
 const toDegrees = a => a * (180 / Math.PI);
 
@@ -38,4 +44,4 @@ const calculateTextWidth = (text, fontSize) => {
     return context.measureText(text).width;
 };
 
-export { getTextPositionInSector, toDegrees, toRadians, calculateTextWidth, getSectorSizeWidth };
+export { getTextPositionInSector, toDegrees, toRadians, calculateTextWidth, getSectorSizeMediumWidth };

@@ -1,6 +1,6 @@
 import { DEFAULT_FONT_SIZE } from './constants.js';
 import { getSvg, getGroup, getText, getDonut, getSector } from './svgFunc.js';
-import { getTextPositionInSector, toDegrees, calculateTextWidth, getSectorSizeWidth } from './helpers.js';
+import { getTextPositionInSector, toDegrees, calculateTextWidth, getSectorSizeMediumWidth } from './helpers.js';
 
 const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
 
@@ -88,11 +88,12 @@ const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
             const sector = getSector(branch.radius, levelsWidths[branch.generation], branch.sectorStart, branch.sectorSize, diagrammRadius);
             group.appendChild(sector);
 
-            const sectorSizeWidth = getSectorSizeWidth(branch.radius, branch.sectorSize);
-            if (branch.fontSize > sectorSizeWidth) branch.fontSize = branch.fontSize * 0.8;
+            const sectorSizeMediumWidth = getSectorSizeMediumWidth(branch.radius, branch.sectorSize, levelsWidths[branch.generation]);
+            const isSectorNarrow = branch.sectorSize < 1 && branch.fontSize > sectorSizeMediumWidth;
+            if (isSectorNarrow) branch.fontSize = branch.fontSize * 0.8;
 
-            const nameStartRadius = branch.fontSize > sectorSizeWidth
-                ? (branch.radius + levelsWidths[branch.generation] - branch.nameWidth * 0.8 - branch.fontSize * 0.2)
+            const nameStartRadius = isSectorNarrow
+                ? (branch.radius + levelsWidths[branch.generation] - branch.nameWidth * 0.8 - branch.fontSize * 0.1)
                 : (branch.radius + branch.fontSize * 0.2);
 
             const textElement = getText(branch.name, branch.fontSize, textClass);
