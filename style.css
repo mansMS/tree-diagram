@@ -7,8 +7,14 @@
 
 body {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     font-family: 'ISOCPEUR';
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
 }
 
 .nav-side {
@@ -174,4 +180,8 @@ g:has(.m4>path:hover) .m8:not(:has(path:hover))>path,
 g:has(.m4>path:hover) .m9:not(:has(path:hover))>path,
 g:has(.m5>path:hover) .m10:not(:has(path:hover))>path {
     fill-opacity: 0.6;
+}
+
+.info {
+    margin-top: 20px;
 }
