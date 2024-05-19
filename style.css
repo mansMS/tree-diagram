@@ -21,8 +21,20 @@ body {
     max-width: 300px;
 }
 
+.search-field {
+    padding: 5px;
+    border: 1px solid rgb(177, 177, 177);
+    border-radius: 4px;
+    outline: none;
+}
+
+/* .search-field::-webkit-search-cancel-button {
+    position: relative;
+    right: 20px;
+} */
+
 .head-list {
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .head-list button {
@@ -137,7 +149,6 @@ text:not(.has-info) {
 
 path,
 circle {
-    fill: transparent;
     stroke: rgb(177, 177, 177);
     stroke-width: 0.2;
     fill: rgb(221, 221, 221);
@@ -184,4 +195,8 @@ g:has(.m5>path:hover) .m10:not(:has(path:hover))>path {
 
 .info {
     margin-top: 20px;
+}
+
+.searched>path {
+    fill: rgb(56, 206, 59);
 }

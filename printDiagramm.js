@@ -36,7 +36,7 @@ const printDiagramm = (diagrammHeadId, flatTree, treeKeys) => {
 
             if (branch.id === diagrammHeadId) {
                 branch.sectorSize = 2 * Math.PI;
-                branch.sectorStart = 73 / 99 * Math.PI;
+                branch.sectorStart = 0.70 * Math.PI;
                 branch.radius = 0;
             };
 

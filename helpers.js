@@ -44,4 +44,19 @@ const calculateTextWidth = (text, fontSize) => {
     return context.measureText(text).width;
 };
 
-export { getTextPositionInSector, toDegrees, toRadians, calculateTextWidth, getSectorSizeMediumWidth };
+const highlightSearched = (flatTree, searchString) => {
+    Object.values(flatTree).forEach(branch => {
+        const sector = document.getElementById(branch.id);
+        if (sector) {
+            sector.classList.remove("searched");
+            const searchValue = searchString.toLowerCase();
+            const branchName = branch.name.toLowerCase();
+            const branchText = branch?.info?.text ? branch.info.text.toLowerCase() : '';
+            if (searchValue && (branchName.includes(searchValue) || (branchText.includes(searchValue)))) {
+                sector.classList.add('searched');
+            };
+        };
+    });
+};
+
+export { getTextPositionInSector, toDegrees, toRadians, calculateTextWidth, getSectorSizeMediumWidth, highlightSearched };

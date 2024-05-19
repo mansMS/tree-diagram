@@ -1,9 +1,18 @@
 import { TREE_HEAD_ID } from './constants.js';
 import printDiagramm from './printDiagramm.js';
 import { closeInfo, openInfo } from './printInfo.js';
+import { highlightSearched } from './helpers.js';
 import tree from './tree.js';
 
+let diagrammHeadId = TREE_HEAD_ID;
+let printingTreeKeys;
+let svg;
+const headListBlock = document.body.getElementsByClassName('head-list')[0];
+const infoBlock = document.body.getElementsByClassName('info-block')[0];
+const headList = [];
+
 const flatTree = {};
+
 const flattenTree = (tree, id) => {
   const generation = id.length - 1;
   const branch = { ...tree, id, generation };
@@ -26,13 +35,7 @@ const flattenTree = (tree, id) => {
 };
 flattenTree(tree, TREE_HEAD_ID);
 
-let diagrammHeadId = TREE_HEAD_ID;
 const treeKeys = Object.keys(flatTree).sort((a, b) => a.length - b.length);
-let printingTreeKeys;
-let svg;
-const headListBlock = document.body.getElementsByClassName('head-list')[0];
-const infoBlock = document.body.getElementsByClassName('info-block')[0];
-const headList = [];
 
 const addHeadButton = headItem => {
   headList.push({ ...headItem });
@@ -46,6 +49,9 @@ const addHeadButton = headItem => {
     if (newDiagrammHeadId !== headList.at(-1).id) {
       updateHeadList(headItem.id);
       startPrinting(headItem.id);
+
+      const searchFieldValue = document.body.getElementsByClassName('search-field')[0].value;
+      highlightSearched(flatTree, searchFieldValue);
     };
   });
 };
@@ -94,8 +100,17 @@ const startPrinting = diagrammHeadId => {
       if (sectorId !== infoBlock.dataset.personId) closeInfo(infoBlock);
       diagrammHeadId = sectorId;
       startPrinting(diagrammHeadId);
+
+      const searchFieldValue = document.body.getElementsByClassName('search-field')[0].value;
+      highlightSearched(flatTree, searchFieldValue);
     };
   });
 };
 
 startPrinting(diagrammHeadId);
+
+const searchWorking = () => {
+  const searchField = document.body.getElementsByClassName('search-field')[0];
+  searchField.addEventListener("input", e => highlightSearched(flatTree, e.target.value));
+};
+searchWorking();
