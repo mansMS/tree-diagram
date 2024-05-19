@@ -15,7 +15,8 @@ const tree = {
         name: 'Даци',
         gender: 'male',
         info: {
-          text: 'Шагьидлъана гIолохъанго 1832 соналъ тIоцевесев имам ГъазимухIаммадгун цадахъ генусезул кIкIалахъ.',
+          text: `Шагьидлъана гIолохъанго 1832 соналъ тIоцевесев имам ГъазимухIаммадгун цадахъ генусезул кIкIалахъ.
+          Лъимал рукIинчIо.`,
         },
       },
       {
@@ -33,6 +34,13 @@ const tree = {
             name: 'МуртазгIалихIажи',
             gender: 'male',
             marriage: 'm1',
+            info: {
+              text: 'ХIажибегиде абун буго дур яс Сайгибат хъамун гьигин вацасул васас, кьалде бусинабичIго магьариги лъун тейин гьесги абун буго.',
+              photos: [
+                { src: 'https://rg.ru/uploads/images/2023/08/30/2p_new_sboku_enot_1000_9fd.jpg', label: 'Enchik' },
+                { src: 'https://rg.ru/uploads/images/2023/08/30/2p_new_sboku_enot_1000_9fd.jpg', label: 'Enchik' },
+              ],
+            },
             childs: [
               {
                 name: 'Шайихислам',
@@ -57,8 +65,9 @@ const tree = {
                 ],
               },
               {
-                name: 'ИладихIажи',
+                name: 'ИладихIажи (Шираздин)',
                 gender: 'male',
+                marriage: 'm2',
                 childs: [
                   {
                     name: 'Агъилав',
@@ -147,12 +156,46 @@ const tree = {
             gender: 'female',
             childs: [
               {
+                name: 'Шардин',
+                gender: 'male',
+                childs: [
+                  {
+                    name: 'Расул',
+                    gender: 'male',
+                    info: {
+                      text: 'Хвана 1941-1945 соназул рагъулъ.',
+                    },
+                  },
+                ],
+              },
+              {
                 name: 'Дадибика',
                 gender: 'female',
                 childs: [
                   {
                     name: 'ПатIимат',
                     gender: 'female',
+                    childs: [
+                      {
+                        name: 'ГъазихIма',
+                        gender: 'male',
+                      },
+                      {
+                        name: 'МухIаммадзагьир',
+                        gender: 'male',
+                      },
+                      {
+                        name: 'МухIаммад',
+                        gender: 'male',
+                      },
+                      {
+                        name: 'СайихIат',
+                        gender: 'female',
+                        info: {
+                          text: 'Хвана гьитIинго, 10 сон балелдего.',
+                        },
+                      },
+                    ],
                   },
                 ],
               }
@@ -168,16 +211,12 @@ const tree = {
         },
         childs: [
           {
-            name: '???',
-          },
-          {
-            name: '???',
-            info: {
-              text: 'Неизвестно название и пол.',
-            },
+            name: 'Хадижат',
+            gender: 'female',
             childs: [
               {
                 name: 'Сада',
+                marriage: 'm3',
                 gender: 'female',
               },
               {
@@ -229,8 +268,49 @@ const tree = {
             ],
           },
           {
+            name: 'Апи',
+            gender: 'female',
+            info: {
+              text: 'Гьелъул бетIергьанчи чачанав Тим?????в.',
+            },
+            childs: [
+              {
+                name: 'Кехурза',
+                gender: 'male',
+                info: {
+                  text: 'Гьесул чIчIужу чачанай Айтула.',
+                },
+                childs: [
+                  {
+                    name: 'Нажмутдим',
+                    gender: 'male',
+                  },
+                  {
+                    name: 'ПатIимат',
+                    gender: 'female',
+                  },
+                  {
+                    name: 'Шамсулвара',
+                    gender: 'male',
+                  },
+                  {
+                    name: 'Сакинат',
+                    gender: 'female',
+                  },
+                  {
+                    name: 'Сарат',
+                    gender: 'female',
+                  },
+                ],
+              },
+            ],
+          },
+          {
             name: 'СайихIат',
             gender: 'female',
+            info: {
+              text: 'Гелбахъалде рукъалде ана.',
+            },
             childs: [
               {
                 name: 'ГIабдулгIазиз',
@@ -251,7 +331,17 @@ const tree = {
               {
                 name: 'Халват',
                 gender: 'female',
+                info: {
+                  text: 'ГIакълу бугей гIадан гьикIана. Хадуй жундуца ккурай, хасологи рукъ хин гьабулароан.',
+                },
                 childs: [
+                  {
+                    name: 'ГъазихIма',
+                    gender: 'male',
+                    info: {
+                      text: '(Петя) Бегавуллъун вукIана.',
+                    },
+                  },
                   {
                     name: 'ГIаишат',
                     gender: 'female',
@@ -261,10 +351,11 @@ const tree = {
             ],
           },
           {
-            name: '???',
+            name: 'Аймесе',
+            gender: 'female',
             childs: [
               {
-                name: 'ГIалихан',
+                name: 'ГIалихан ????? откуда он тут?????',
                 gender: 'male',
                 childs: [
                   {
@@ -321,10 +412,14 @@ const tree = {
           },
           {
             name: '???',
+            gender: 'male',
             childs: [
               {
                 name: 'ГIалихIажи',
                 gender: 'male',
+                info: {
+                  text: 'Гьусул чIчIужу Абагъиз.'
+                },
                 childs: [
                   {
                     name: 'МухIаммад',
@@ -373,6 +468,24 @@ const tree = {
                   {
                     name: 'Зазай',
                     gender: 'female',
+                    childs: [
+                      {
+                        name: 'ХIасан',
+                        gender: 'male',
+                      },
+                      {
+                        name: 'Бектимер',
+                        gender: 'male',
+                      },
+                      {
+                        name: 'Загьи',
+                        gender: 'female',
+                      },
+                      {
+                        name: 'ГъаналгьитIинав',
+                        gender: 'male',
+                      },
+                    ],
                   },
                 ],
               },
@@ -382,39 +495,46 @@ const tree = {
                 childs: [
                   {
                     name: 'Зиявутдин',
+                    info: {
+                      text: 'Гогоязул рикьи'
+                    },
                     gender: 'male',
                   },
                 ],
               },
               {
                 name: 'ХIада',
-                gender: 'female',
+                gender: 'male',
                 childs: [
                   {
                     name: 'ГIабдулгIазим',
                     gender: 'male',
                   },
                   {
-                    name: 'Саид',
-                    gender: 'female',
+                    name: 'СагIид',
+                    marriage: 'm4',
+                    gender: 'male',
                   },
                   {
                     name: 'ГIабдулкарим',
                     gender: 'male',
                   },
                   {
-                    name: 'Яц',
+                    name: 'Написат',
                     gender: 'female',
                   },
                 ],
               },
               {
-                name: 'Амирилав',
+                name: 'ГIамирилав',
                 gender: 'male',
                 childs: [
                   {
                     name: 'Абусаид',
                     gender: 'male',
+                    info: {
+                      text: 'Гьесул чIчIужу Апи.'
+                    },
                   },
                 ],
               },
@@ -439,36 +559,11 @@ const tree = {
             ],
           },
           {
-            name: 'Апи',
+            name: '???',
             gender: 'female',
-            childs: [
-              {
-                name: 'Кехурза',
-                gender: 'male',
-                childs: [
-                  {
-                    name: 'Нажмутдим',
-                    gender: 'male',
-                  },
-                  {
-                    name: 'ПатIимат',
-                    gender: 'female',
-                  },
-                  {
-                    name: 'Шамсулвара',
-                    gender: 'male',
-                  },
-                  {
-                    name: 'Сакинат',
-                    gender: 'female',
-                  },
-                  {
-                    name: 'Сарат',
-                    gender: 'female',
-                  },
-                ],
-              },
-            ],
+            info: {
+              text: 'ГIандалалде рукъалде ана. ХIабихIажил инсул эбел',
+            },
           },
           {
             name: 'ГIалихIажи',
@@ -477,9 +572,15 @@ const tree = {
               {
                 name: 'АхIмадула',
                 gender: 'male',
+                info: {
+                  text: `Гьесул чIчIужу Загьрат.`,
+                },
                 childs: [
                   {
                     name: 'Расул',
+                    info: {
+                      text: `АхIмадуласул Аццийин абулаан гьесда.`,
+                    },
                     gender: 'male',
                   },
                 ],
@@ -487,10 +588,20 @@ const tree = {
               {
                 name: 'МухIаммадбашир',
                 gender: 'male',
+                info: {
+                  text: `Гьесул чIчIужу Зайгьанат.`,
+                },
                 childs: [
                   {
                     name: 'Баху',
                     gender: 'female',
+                    childs: [
+                      {
+                        name: 'Хадижат',
+                        gender: 'female',
+                        marriage: 'm4',
+                      },
+                    ],
                   },
                   {
                     name: 'Анар',
@@ -522,6 +633,9 @@ const tree = {
               {
                 name: 'ГIумар',
                 gender: 'male',
+                info: {
+                  text: `Гьесул чIчIужу буртиналса Ажа. Ажал ХIажи (чачан ХIажи) буртинаялда лъалаан нухал къачIалев чи вукIиналъ. Дилималда кьо балаго прораблъунги вукIана.`,
+                },
                 childs: [
                   {
                     name: 'ХIажи',
@@ -535,6 +649,7 @@ const tree = {
               },
               {
                 name: 'ХIажибег',
+                marriage: 'm3',
                 gender: 'male',
                 childs: [
                   {
@@ -556,8 +671,9 @@ const tree = {
                 ],
               },
               {
-                name: 'ГьайбатИладихIажи',
-                gender: 'male',
+                name: 'Гьайбат',
+                marriage: 'm2',
+                gender: 'female',
                 childs: [
                   {
                     name: '???',
@@ -579,7 +695,27 @@ const tree = {
             marriage: 'm1',
           },
         ],
-      }
+      },
+      {
+        name: 'Гъамбулат',
+        gender: 'male',
+        childs: [
+          {
+            name: 'СурхайхIажи (Лала)',
+            gender: 'male',
+            childs: [
+              {
+                name: 'Лала',
+                gender: 'male',
+              },
+              {
+                name: 'Чама',
+                gender: 'male',
+              },
+            ],
+          },
+        ],
+      },
     ],
   }],
 };
