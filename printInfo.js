@@ -36,9 +36,25 @@ const openInfo = (person, infoBlock) => {
             const photoCard = document.createElement('div');
             photoCard.className = 'info-block__photos-card';
 
+            if (photoObject.legend) {
+                const legend = document.createElement('details');
+                legend.textContent = photoObject.legend;
+                photoCard.appendChild(legend);
+            }
+
             const photo = document.createElement('img');
             photo.src = photoObject.src;
             photo.alt = photoObject.label;
+            photo.onclick = (e) => {
+                if (!photoCard.classList.contains('open')) {
+                    photoCard.classList.add('open');
+                    // e.stopPropagation();
+                } else photoCard.classList.remove("open");
+            };
+
+            // photoCard.onclick = () => {
+            //     if (photoCard.classList.contains('open')) photoCard.classList.remove("open");
+            // };
             photoCard.appendChild(photo);
 
             const photoLabel = document.createElement('div');
